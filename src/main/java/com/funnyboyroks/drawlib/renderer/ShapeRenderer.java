@@ -31,12 +31,14 @@ public class ShapeRenderer {
 
     private Color        color; // Colour of the particles to be drawn
     private List<Player> receivers; // Players that will receive the particles
+    private boolean      force; // Force show particles
 
     private static final double STEP_SIZE = .1;
 
     public ShapeRenderer() {
         this.color = Color.RED;
         this.receivers = null;
+        this.force = false;
     }
 
     /**
@@ -61,6 +63,13 @@ public class ShapeRenderer {
     }
 
     /**
+     * @param force If the particle should be forceshown to the players
+     */
+    public void setForceShow(boolean force) {
+        this.force = force;
+    }
+
+    /**
      * Draw a single particle point
      *
      * @param point The location to draw
@@ -79,7 +88,7 @@ public class ShapeRenderer {
             0,
             0,
             new Particle.DustOptions(this.color, .5f),
-            false
+            this.force
         );
     }
 
