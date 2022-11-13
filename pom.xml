@@ -6,13 +6,13 @@
 
     <groupId>com.funnyboyroks</groupId>
     <artifactId>DrawLib</artifactId>
-    <version>0.1.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>DrawLib</name>
 
     <properties>
-        <java.version>18</java.version>
+        <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -54,7 +54,7 @@
 
     <distributionManagement>
         <repository>
-            <id>funny-maven</id>
+            <id>funnyboy_roks</id>
             <url>https://maven.funnyboyroks.com/snapshots</url>
         </repository>
     </distributionManagement>

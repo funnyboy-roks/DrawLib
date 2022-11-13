@@ -5,6 +5,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class Util {
 
+    /**
+     * Get the min corner of the cuboid specified by a and b
+     * @param a Corner 1 of cuboid
+     * @param b Corner 2 of cuboid
+     * @return The min corner of the cuboid (min x, y, and z)
+     */
     public static @NotNull Location minLocation(@NotNull Location a, @NotNull Location b) {
         if (a.getWorld() != b.getWorld()) {
             throw new IllegalArgumentException("Cannot compare locations in different worlds.");
@@ -17,6 +23,12 @@ public class Util {
         );
     }
 
+    /**
+     * Get the max corner of the cuboid specified by a and b
+     * @param a Corner 1 of cuboid
+     * @param b Corner 2 of cuboid
+     * @return The max corner of the cuboid (min x, y, and z)
+     */
     public static @NotNull Location maxLocation(@NotNull Location a, @NotNull Location b) {
         if (a.getWorld() != b.getWorld()) {
             throw new IllegalArgumentException("Cannot compare locations in different worlds.");
