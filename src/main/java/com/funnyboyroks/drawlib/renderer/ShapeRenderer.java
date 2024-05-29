@@ -32,8 +32,7 @@ public class ShapeRenderer {
     private Color        color; // Colour of the particles to be drawn
     private List<Player> receivers; // Players that will receive the particles
     private boolean      force; // Force show particles
-
-    private static final double STEP_SIZE = .1;
+    private double step_size = .1; // Step between two particles
 
     public ShapeRenderer() {
         this.color = Color.RED;
@@ -46,6 +45,13 @@ public class ShapeRenderer {
      */
     public void setColor(@NotNull Color color) {
         this.color = color;
+    }
+
+    /**
+     * @param step_size The new step between two particles. Lower values can crash low-end devices
+     */
+    public void setStepSize(@NotNull double step_size) {
+        this.step_size = step_size;
     }
 
     /**
@@ -112,7 +118,7 @@ public class ShapeRenderer {
 
         Vector unit = vec.getUnit();
 
-        for (double mag = 0; mag * mag < vec.getMagSq(); mag += STEP_SIZE) {
+        for (double mag = 0; mag * mag < vec.getMagSq(); mag += step_size) {
             Location l = unit.clone().mult(mag).toLocation(a.getWorld());
             l.add(a);
             drawPoint(l);
@@ -127,9 +133,9 @@ public class ShapeRenderer {
      * @param radius The radius of the sphere
      */
     public void drawSphere(@NotNull Location centre, double radius) {
-        for (double phi = 0; phi <= Math.PI; phi += STEP_SIZE) {
+        for (double phi = 0; phi <= Math.PI; phi += step_size) {
             double z = radius * Math.cos(phi);
-            for (double theta = 0; theta <= 2 * Math.PI; theta += STEP_SIZE) {
+            for (double theta = 0; theta <= 2 * Math.PI; theta += step_size) {
                 double x = radius * Math.sin(phi) * Math.cos(theta);
                 double y = radius * Math.sin(phi) * Math.sin(theta);
                 drawPoint(centre.clone().add(x, y, z));
