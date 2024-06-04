@@ -16,6 +16,7 @@ See the [maven repo](https://maven.funnyboyroks.com/#/snapshots/com/funnyboyroks
 ShapeRenderer renderer = new ShapeRenderer();
 
 renderer.setColor(Color.RED);
+renderer.setStepSize(0.1);
 renderer.setReceivers(player);
 renderer.drawLine(point1, point2);
 ```

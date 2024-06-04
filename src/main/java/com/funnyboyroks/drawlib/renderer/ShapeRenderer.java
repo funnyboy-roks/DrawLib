@@ -19,8 +19,9 @@ import java.util.List;
  * Intended Usage:
  * <pre>
  *     ShapeRenderer renderer = new ShapeRenderer();
- *
+ * 
  *     renderer.setColor(Color.RED);
+ *     renderer.setStepSize(0.1);
  *     renderer.setReceivers(player);
  *     renderer.drawLine(point1, point2);
  * </pre>
@@ -48,9 +49,13 @@ public class ShapeRenderer {
     }
 
     /**
-     * @param step_size The new step between two particles. Lower values can crash low-end devices
+     * @param step_size The new step between particles. Lower values may cause performance issues on client and/or server, especially on low-end devices. Higher value may make the lines hard to see. Must be greater than 0.
      */
     public void setStepSize(@NotNull double step_size) {
+        if (step_size <= 0) {
+            throw new IllegalArgumentException("step size must be greater than 0");
+        }
+
         this.step_size = step_size;
     }
 
