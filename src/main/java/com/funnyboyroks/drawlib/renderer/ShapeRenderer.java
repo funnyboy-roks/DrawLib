@@ -51,7 +51,7 @@ public class ShapeRenderer {
     /**
      * @param step_size The new step between particles. Lower values may cause performance issues on client and/or server, especially on low-end devices. Higher value may make the lines hard to see. Must be greater than 0.
      */
-    public void setStepSize(@NotNull double step_size) {
+    public void setStepSize(double step_size) {
         if (step_size <= 0) {
             throw new IllegalArgumentException("step size must be greater than 0");
         }
