@@ -33,7 +33,7 @@ public class ShapeRenderer {
     private Color        color; // Colour of the particles to be drawn
     private List<Player> receivers; // Players that will receive the particles
     private boolean      force; // Force show particles
-    private double step_size = .2; // Step between two particles
+    private double       step_size = .1; // Step between two particles
     private boolean      optimize; // Optimize particles
 
     public ShapeRenderer() {
@@ -138,8 +138,9 @@ public class ShapeRenderer {
         // |  term  |                          middle                             |  term  |
         // ********** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **********
         if (this.optimize && length >= lengthOfStartOptimize) {
-            final int term = 10;   // number of terminal points
-            final int middle = 80; // number of middle points
+            final double ppb = 1.0 / step_size; // points per block
+            final int term = (int)(lengthOfTerm * ppb); // number of terminal points
+            final int middle = (int)(lengthOfMinMiddle * ppb); // number of middle points
             final int max = term * 2 + middle; // max points on line
             for (int i = 0; i <= max; i++) {
                 double mag;  // 0.0 ~ 1.0
