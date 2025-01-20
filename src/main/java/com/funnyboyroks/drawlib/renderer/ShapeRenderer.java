@@ -33,12 +33,14 @@ public class ShapeRenderer {
     private Color        color; // Colour of the particles to be drawn
     private List<Player> receivers; // Players that will receive the particles
     private boolean      force; // Force show particles
-    private double step_size = .1; // Step between two particles
+    private double       step_size = .1; // Step between two particles
+    private boolean      optimize; // Optimize particles
 
     public ShapeRenderer() {
         this.color = Color.RED;
         this.receivers = null;
         this.force = false;
+        this.optimize = true;
     }
 
     /**
@@ -57,6 +59,13 @@ public class ShapeRenderer {
         }
 
         this.step_size = step_size;
+    }
+
+    /**
+     * @param optimize Optimize plot line
+     */
+    public void setOptimize(boolean optimize) {
+        this.optimize = optimize;
     }
 
     /**
@@ -121,12 +130,39 @@ public class ShapeRenderer {
 
         Vector vec = new Vector(b.getX() - a.getX(), b.getY() - a.getY(), b.getZ() - a.getZ());
 
-        Vector unit = vec.getUnit();
+        double length = vec.getMag();
+        final double lengthOfTerm = 2.0;  // terminal length = 2.0 blocks
+        final double lengthOfMinMiddle = 8.0;
+        final double lengthOfStartOptimize = lengthOfTerm * 2 + lengthOfMinMiddle;
+        // |<--------------------------------- length ------------------------------------>|
+        // |  term  |                          middle                             |  term  |
+        // ********** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **********
+        if (this.optimize && length >= lengthOfStartOptimize) {
+            final double ppb = 1.0 / step_size; // points per block
+            final int term = (int)(lengthOfTerm * ppb); // number of terminal points
+            final int middle = (int)(lengthOfMinMiddle * ppb); // number of middle points
+            final int max = term * 2 + middle; // max points on line
+            for (int i = 0; i <= max; i++) {
+                double mag;  // 0.0 ~ 1.0
+                if (i >= term + middle) {
+                    mag = (length - lengthOfTerm + ((double)(i - (term + middle)) / term) * lengthOfTerm) / length;
+                } else if (i < term) {
+                    mag = ((double) i / term) * lengthOfTerm / length;
+                } else {
+                    mag = (lengthOfTerm + ((double)(i - term) / middle) * (length - lengthOfTerm * 2)) / length;
+                }
+                Location l = vec.clone().mult(mag).toLocation(a.getWorld());
+                l.add(a);
+                drawPoint(l);
+            }
+        } else {
+            Vector unit = vec.getUnit();
 
-        for (double mag = 0; mag * mag < vec.getMagSq(); mag += step_size) {
-            Location l = unit.clone().mult(mag).toLocation(a.getWorld());
-            l.add(a);
-            drawPoint(l);
+            for (double mag = 0; mag * mag < vec.getMagSq(); mag += step_size) {
+                Location l = unit.clone().mult(mag).toLocation(a.getWorld());
+                l.add(a);
+                drawPoint(l);
+            }
         }
 
     }
