@@ -136,12 +136,14 @@ public class ShapeRenderer {
         final double lengthOfStartOptimize = lengthOfTerm * 2 + lengthOfMinMiddle;
         // |<--------------------------------- length ------------------------------------>|
         // |  term  |                          middle                             |  term  |
-        // ********** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **********
+        // ************ * * * * *  *  *  *   *   *   *   *   *  *  *  * * * * * ************
         if (this.optimize && length >= lengthOfStartOptimize) {
             final double ppb = 1.0 / step_size; // points per block
             final int term = (int)(lengthOfTerm * ppb); // number of terminal points
             final int middle = (int)(lengthOfMinMiddle * ppb); // number of middle points
             final int max = term * 2 + middle; // max points on line
+            final double lengthOfMiddle = length - lengthOfTerm * 2;
+            final double gamma = 2.2;
             for (int i = 0; i <= max; i++) {
                 double mag;  // 0.0 ~ 1.0
                 if (i >= term + middle) {
@@ -149,7 +151,13 @@ public class ShapeRenderer {
                 } else if (i < term) {
                     mag = ((double) i / term) * lengthOfTerm / length;
                 } else {
-                    mag = (lengthOfTerm + ((double)(i - term) / middle) * (length - lengthOfTerm * 2)) / length;
+                    double percent = (double)(i - term) / middle; // 0.0 ~ 1.0
+                    if (percent < 0.5) {
+                        percent = Math.pow(percent * 2, gamma) / 2;
+                    } else {
+                        percent = 1.0 - Math.pow((1.0 - percent) * 2, gamma) / 2;
+                    }
+                    mag = (lengthOfTerm + percent * lengthOfMiddle) / length;
                 }
                 Location l = vec.clone().mult(mag).toLocation(a.getWorld());
                 l.add(a);
