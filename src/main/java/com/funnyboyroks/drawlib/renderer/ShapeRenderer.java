@@ -131,6 +131,7 @@ public class ShapeRenderer {
 
     }
 
+    private static final double GOLDEN_RATIO = (1 + Math.sqrt(5)) / 2.0;
     /**
      * Draw a sphere with the provided radius
      *
@@ -138,13 +139,31 @@ public class ShapeRenderer {
      * @param radius The radius of the sphere
      */
     public void drawSphere(@NotNull Location centre, double radius) {
-        for (double phi = 0; phi <= Math.PI; phi += step_size) {
-            double z = radius * Math.cos(phi);
-            for (double theta = 0; theta <= 2 * Math.PI; theta += step_size) {
-                double x = radius * Math.sin(phi) * Math.cos(theta);
-                double y = radius * Math.sin(phi) * Math.sin(theta);
-                drawPoint(centre.clone().add(x, y, z));
-            }
+        this.drawSphere(centre, radius, 500);
+    }
+
+    /**
+     * Draw a sphere with the provided radius and a specific amount of points
+     *
+     * @param centre The centre point of the sphere
+     * @param radius The radius of the sphere
+     * @param points The amount of points that should make up the circle
+     */
+    public void drawSphere(@NotNull Location centre, double radius, int points) {
+        // Fibonacci Sphere
+
+        double angleIncrement = Math.PI * 2 * GOLDEN_RATIO;
+
+        for (int i = 0; i < points; ++i) {
+            double t =  i / (double) points;
+            double a1 = Math.acos(1 - 2 * t);
+            double a2 = angleIncrement * i;
+
+            double x = radius * Math.sin(a1) * Math.cos(a2);
+            double y = radius * Math.sin(a1) * Math.sin(a2);
+            double z = radius * Math.cos(a1);
+
+            drawPoint(centre.clone().add(x, y, z));
         }
     }
 
