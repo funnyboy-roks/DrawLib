@@ -1,16 +1,33 @@
-![](https://maven.funnyboyroks.com/api/badge/latest/snapshots/com/funnyboyroks/DrawLib?color=40c14a&name=DrawLib&prefix=v)
+[![](https://jitpack.io/v/funnyboy-roks/DrawLib.svg)](https://jitpack.io/#funnyboy-roks/DrawLib)
 
 # DrawLib
-
-(Name Pending to Change)
 
 A simple library to draw some simple shapes using particles in Paper servers
 
 ![Screenshot](./img/screenshot.png)
 
-## Usage
+## Maven
 
-See the [maven repo](https://maven.funnyboyroks.com/#/snapshots/com/funnyboyroks/DrawLib/1.0.0-SNAPSHOT) for the latest version and code snippets for your `pom.xml`.
+Add jitpack to your `repositories`:
+```xml
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
+```
+
+Add DrawLib to your `dependencies`:
+```xml
+<dependency>
+    <groupId>com.github.funnyboy-roks</groupId>
+    <artifactId>DrawLib</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
+</dependency>
+```
+
+For other tools, see the [JitPack](https://jitpack.io/#funnyboy-roks/DrawLib) page
+
+## Usage
 
 ```java
 ShapeRenderer renderer = new ShapeRenderer();
